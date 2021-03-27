@@ -1,27 +1,43 @@
 {
     "questions": [
         {
-            "questionText": "question1text",
-            "option1": "question1option1",
-            "option2": "question1option2",
-            "option3": "question1option3",
-            "option4": "question1option4",
-            "answer": "1"
+            "questionText": "Which of these values is considered 'truthy'?",
+            "option1": "undefined",
+            "option2": "false",
+            "option3": "NaN",
+            "option4": "-1",
+            "answer": "4"
         },
         {
-            "questionText": "question2text",
-            "option1": "question2option1",
-            "option2": "question2option2",
-            "option3": "question2option3",
-            "option4": "question2option4",
-            "answer": "1"
+            "questionText": "Which of the following is true of strings in JavaScript?",
+            "option1": "They are not a primitive data type",
+            "option2": "They cannot contain more than 32,767 characters",
+            "option3": "They are immutable",
+            "option4": "They cannot be concatenated with other strings",
+            "answer": "3"
         },
         {
-            "questionText": "question3text",
-            "option1": "question3option1",
-            "option2": "question3option2",
-            "option3": "question31option3",
-            "option4": "question3option4",
+            "questionText": "What name was first given to the JavaScript programing language?",
+            "option1": "Ice-T",
+            "option2": "Mocha",
+            "option3": "Espresso",
+            "option4": "Cappuccino",
+            "answer": "2"
+        },
+        {
+            "questionText": "Which of the following declares and initializes an empty object?",
+            "option1": "let obj = ' '",
+            "option2": "let obj = 0",
+            "option3": "let obj = []",
+            "option4": "let obj = {}",
+            "answer": "4"
+        },
+        {
+            "questionText": "What denotes the strict equality operator?",
+            "option1": "===",
+            "option2": "!==",
+            "option3": "==",
+            "option4": "!=",
             "answer": "1"
         }
     ]
