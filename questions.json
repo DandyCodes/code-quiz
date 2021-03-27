@@ -6,7 +6,7 @@
             "option2": "false",
             "option3": "NaN",
             "option4": "-1",
-            "answer": "4"
+            "correct": "4"
         },
         {
             "questionText": "Which of the following is true of strings in JavaScript?",
@@ -14,7 +14,7 @@
             "option2": "They cannot contain more than 32,767 characters",
             "option3": "They are immutable",
             "option4": "They cannot be concatenated with other strings",
-            "answer": "3"
+            "correct": "3"
         },
         {
             "questionText": "What name was first given to the JavaScript programing language?",
@@ -22,7 +22,7 @@
             "option2": "Mocha",
             "option3": "Espresso",
             "option4": "Cappuccino",
-            "answer": "2"
+            "correct": "2"
         },
         {
             "questionText": "Which of the following declares and initializes an empty object?",
@@ -30,7 +30,7 @@
             "option2": "let obj = 0",
             "option3": "let obj = []",
             "option4": "let obj = {}",
-            "answer": "4"
+            "correct": "4"
         },
         {
             "questionText": "What denotes the strict equality operator?",
@@ -38,7 +38,7 @@
             "option2": "!==",
             "option3": "==",
             "option4": "!=",
-            "answer": "1"
+            "correct": "1"
         }
     ]
 }
