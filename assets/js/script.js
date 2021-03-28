@@ -28,7 +28,7 @@ function init() {
 }
 
 function readyGame() {
-    hideAll();
+    hideAllSections();
     $('#start-leader-section').show();
     timer = startingTime;
     $('#time-span').text(timer);
@@ -36,7 +36,7 @@ function readyGame() {
 }
 
 function startGame() {
-    hideAll();
+    hideAllSections();
     $('#question-section').show();
     $('#time-section').show();
     setTimeSectionBootstrapClass('bg-info');
@@ -98,7 +98,7 @@ function optionIsCorrect(option) {
 function endGame() {
     clearInterval(tickInterval);
     setTimeSectionBootstrapClass('bg-info');
-    hideAll();
+    hideAllSections();
     $('#time-section').show();
     $('#entry-input-section').show();
 }
@@ -118,7 +118,7 @@ function storeEntry() {
 }
 
 function showLeaderboard() {
-    hideAll();
+    hideAllSections();
     $('#back-reset-section').show();
     $('#leaderboard-section').show();
     $('#leaderboard-section').empty();
@@ -134,7 +134,7 @@ function showLeaderboard() {
     })
 }
 
-function hideAll() {
+function hideAllSections() {
     $('#start-leader-section').hide();
     $('#back-reset-section').hide();
     $('#question-section').hide();
