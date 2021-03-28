@@ -1,11 +1,12 @@
 const $startButton = $('#start-button');
-const $leaderButton = $('#leader-button');
-const $questionBox = $('#question-box');
-const $time = $('#time');
+const $leaderboardButton = $('#leaderboard-button');
+const $questionSection = $('#question-section');
+const $timeSection = $('#time-section');
+const $timeSpan = $('#time-span');
 const startTime = 75;
 const penaltyTime = 15;
 const totalQuestions = 5;
-const numOptions = 4;
+const optionsPerQuestion = 4;
 
 let questions = [];
 let currentQuestionIndex = -1;
@@ -20,103 +21,130 @@ function init() {
     if (savedLeaderboard) {
         leaderboard = savedLeaderboard;
     }
-    $leaderButton.on('click', showLeaderboard);
-    $.getJSON('questions.json', function(json) {
+    $leaderboardButton.on('click', showLeaderboard);
+    $.getJSON('questions.json', json => {
         questions = json['questions'];
         readyGame();
         $startButton.on('click', startGame);
-    })
+    });
 }
 
 function readyGame() {
-    $questionBox.empty();
-    $questionBox.text('Click start to begin!');
-    $startButton.attr('disabled', false);
-    $startButton.fadeTo(0,1);
-    $leaderButton.attr('disabled', false);
-    $leaderButton.fadeTo(0,1);
+    $questionSection.empty();
+    $questionSection.text('Click start to begin!');
+    showStartAndLeaderboardButtons();
+    resetTimer();
     currentQuestionIndex = -1;
+}
+
+function showStartAndLeaderboardButtons() {
+    $startButton.attr('disabled', false);
+    $startButton.fadeTo(0, 1);
+    $leaderboardButton.attr('disabled', false);
+    $leaderboardButton.fadeTo(0, 1);
+}
+
+function resetTimer() {
     timer = startTime;
-    $time.text(timer);
+    $timeSpan.text(timer);
 }
 
 function startGame() {
-    $startButton.attr('disabled', true);
-    $startButton.fadeTo(0,0);
-    $leaderButton.attr('disabled', true);
-    $leaderButton.fadeTo(0,0);
+    hideStartAndLeaderboardButtons();
+    setTimeSectionBootstrapClass('bg-info');
     tickInterval = setInterval(tick, 1000);
-    displayNewQuestion();
-    $time.parent().parent().removeClass('bg-danger bg-success');
-    $time.parent().parent().addClass('bg-info');
+    nextQuestion();
+}
+
+function hideStartAndLeaderboardButtons() {
+    $startButton.attr('disabled', true);
+    $startButton.fadeTo(0, 0);
+    $leaderboardButton.attr('disabled', true);
+    $leaderboardButton.fadeTo(0, 0);
+}
+
+function setTimeSectionBootstrapClass(bootstrapClass) {
+    $timeSection.removeClass('bg-danger bg-success bg-info');
+    $timeSection.addClass(bootstrapClass);
 }
 
 function tick() {
     timer--;
-    $time.text(timer);
+    $timeSpan.text(timer);
     if(timer == 0){
         endGame();
     }
 }
 
-function displayNewQuestion() {
+function nextQuestion() {
     currentQuestionIndex++;
     if (currentQuestionIndex == totalQuestions) {
         endGame();
         return;
     }
-    $questionBox.empty();
-    const questionObject = questions[currentQuestionIndex];
-    const $question = $('<h2>').text(questionObject.questionText);
-    $questionBox.append($question);
-    for (let i = 1; i < numOptions + 1; i++) {
-        const $option = $('<button>').text(i + ') ' + questionObject['option' + i]);
+    displayQuestion(questions[currentQuestionIndex]);
+}
+
+function displayQuestion(question) {
+    $questionSection.empty();
+    const $questionText = $('<h2>');
+    $questionText.text(question.text);
+    $questionSection.append($questionText);
+    displayOptions(question.options);
+}
+
+function displayOptions(options) {
+    options.forEach((option, index) => {
+        const optionNumber = index + 1;
+        const formattedOptionText = `${optionNumber}) ${option}`;
+        const $option = $('<button>');
+        $option.text(formattedOptionText);
         $option.css('display', 'block');
         $option.addClass('btn-lg btn-primary m-3 text-left');
-        $option.on('click', optionSelected)
-        $questionBox.append($option);
-    }
+        $option.on('click', optionSelected);
+        $questionSection.append($option);
+    });
 }
 
 function optionSelected() {
     if (optionIsCorrect(this)) {
-        $time.parent().parent().removeClass('bg-danger bg-info');
-        $time.parent().parent().addClass('bg-success');
-        displayNewQuestion();
+        setTimeSectionBootstrapClass('bg-success');
+        nextQuestion();
         return;
     }
     timer -= penaltyTime;
-    $time.text(timer);
+    $timeSpan.text(timer);
     if(timer <= 0) {
         endGame();
         return;
     }
-    $time.parent().parent().removeClass('bg-info bg-success');
-    $time.parent().parent().addClass('bg-danger');
-    displayNewQuestion();
+    setTimeSectionBootstrapClass('bg-danger');
+    nextQuestion();
 }
 
 function optionIsCorrect(option) {
-    return option.textContent.startsWith(questions[currentQuestionIndex].correct);
+    return option.textContent.startsWith(questions[currentQuestionIndex].answer);
 }
 
 function endGame() {
     clearInterval(tickInterval);
-    $time.parent().parent().removeClass('bg-danger bg-success');
-    $time.parent().parent().addClass('bg-info');
+    setTimeSectionBootstrapClass('bg-info');
     displayNameInput();
 }
 
 function displayNameInput() {
-    $questionBox.empty();
-    const $label = $('<label>Enter your name :  </label>');
+    $questionSection.empty();
+    const $label = $('<label>');
+    $label.text('Enter your name : ');
     const $nameInput = $('<input>');
-    const $submit = $('<button class="btn btn-secondary ml-5">Submit</button>');
-    $questionBox.append($label, $nameInput, $submit);
-    $submit.on('click', function() {
+    const $submit = $('<button>');
+    $submit.text('Submit');
+    $submit.addClass('btn btn-secondary ml-5');
+    $questionSection.append($label, $nameInput, $submit);
+    $submit.on('click', () => {
         const entry = {
             name: $nameInput.val(),
-            score: $time.text()
+            score: $timeSpan.text()
         }
         leaderboard.push(entry);
         localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
@@ -125,34 +153,37 @@ function displayNameInput() {
 }
 
 function showLeaderboard() {
-    $startButton.attr('disabled', true);
-    $startButton.fadeTo(0,0);
-    $leaderButton.attr('disabled', true);
-    $leaderButton.fadeTo(0,0);
-    $questionBox.empty();
-    const $backButton = $('<button id="back" class="btn btn-secondary ml-5">Back</button>');
-    $backButton.on('click', back);
-    const $resetButton = $('<button id="back" class="btn btn-secondary ml-5">Reset</button>');
-    $resetButton.on('click', reset);
-    $questionBox.append($backButton, $resetButton);
+    hideStartAndLeaderboardButtons();
+    $questionSection.empty();
+    $questionSection.append(createBackButton(), createResetButton());
     if(leaderboard.length == 0) {
-        $questionBox.append($('<h3>No entries</h3>'));
+        $questionSection.append($('<h3>No entries</h3>'));
         return;
     }
     leaderboard.sort((a, b) => b.score - a.score).forEach(entry => {
         const $entryName = $('<h3>').text(entry.name);
         const $entryScore = $('<p>').text(entry.score);
-        $questionBox.append($entryName, $entryScore);
+        $questionSection.append($entryName, $entryScore);
     })
 }
 
-function back() {
-    $('#back').remove();
-    readyGame();
+function createBackButton() {
+    const $backButton = $('<button>');
+    $backButton.attr('id', 'back');
+    $backButton.addClass('btn btn-secondary ml-5');
+    $backButton.text('Back');
+    $backButton.on('click', readyGame);
+    return $backButton;
 }
 
-function reset() {
-    localStorage.setItem('leaderboard', null);
-    leaderboard = [];
-    showLeaderboard();
+function createResetButton() {
+    const $resetButton = $('<button>');
+    $resetButton.addClass('btn btn-secondary ml-5');
+    $resetButton.text('Reset');
+    $resetButton.on('click', () => {
+        localStorage.setItem('leaderboard', null);
+        leaderboard = [];
+        showLeaderboard();
+    });
+    return $resetButton;
 }
