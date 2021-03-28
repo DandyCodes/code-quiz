@@ -1,125 +1,93 @@
-const $startButton = $('#start-button');
-const $leaderboardButton = $('#leaderboard-button');
-const $questionSection = $('#question-section');
-const $timeSection = $('#time-section');
-const $timeSpan = $('#time-span');
-const startTime = 75;
-const penaltyTime = 15;
 const totalQuestions = 5;
 const optionsPerQuestion = 4;
+const startingTime = 75;
+const penaltyTime = 15;
 
 let questions = [];
 let currentQuestionIndex = -1;
 let timer = 0;
 let tickInterval = null;
-let leaderboard = [];
 
 init();
 
 function init() {
-    const savedLeaderboard = JSON.parse(localStorage.getItem('leaderboard'));
-    if (savedLeaderboard) {
-        leaderboard = savedLeaderboard;
-    }
-    $leaderboardButton.on('click', showLeaderboard);
+    $('#leaderboard-button').on('click', showLeaderboard);
+    $('#back-button').on('click', readyGame);
+    $('#reset-button').on('click', () => {
+        localStorage.setItem('leaderboard', null);
+        showLeaderboard();
+    })
+    $('.option').on('click', optionSelected);
+    $('#submit-entry-button').on('click', storeEntry);
     $.getJSON('questions.json', json => {
         questions = json['questions'];
         readyGame();
-        $startButton.on('click', startGame);
+        $('#start-button').on('click', startGame);
     });
 }
 
 function readyGame() {
-    $questionSection.empty();
-    $questionSection.text('Click start to begin!');
-    showStartAndLeaderboardButtons();
-    resetTimer();
+    hideAll();
+    $('#start-leader-section').show();
+    timer = startingTime;
+    $('#time-span').text(timer);
     currentQuestionIndex = -1;
 }
 
-function showStartAndLeaderboardButtons() {
-    $startButton.attr('disabled', false);
-    $startButton.fadeTo(0, 1);
-    $leaderboardButton.attr('disabled', false);
-    $leaderboardButton.fadeTo(0, 1);
-}
-
-function resetTimer() {
-    timer = startTime;
-    $timeSpan.text(timer);
-}
-
 function startGame() {
-    hideStartAndLeaderboardButtons();
+    hideAll();
+    $('#question-section').show();
+    $('#time-section').show();
     setTimeSectionBootstrapClass('bg-info');
     tickInterval = setInterval(tick, 1000);
-    nextQuestion();
-}
-
-function hideStartAndLeaderboardButtons() {
-    $startButton.attr('disabled', true);
-    $startButton.fadeTo(0, 0);
-    $leaderboardButton.attr('disabled', true);
-    $leaderboardButton.fadeTo(0, 0);
+    displayNextQuestion();
 }
 
 function setTimeSectionBootstrapClass(bootstrapClass) {
-    $timeSection.removeClass('bg-danger bg-success bg-info');
-    $timeSection.addClass(bootstrapClass);
+    $('#time-section').removeClass('bg-danger bg-success bg-info');
+    $('#time-section').addClass(bootstrapClass);
 }
 
 function tick() {
     timer--;
-    $timeSpan.text(timer);
+    $('#time-span').text(timer);
     if(timer == 0){
         endGame();
     }
 }
 
-function nextQuestion() {
+function displayNextQuestion() {
     currentQuestionIndex++;
     if (currentQuestionIndex == totalQuestions) {
         endGame();
         return;
     }
-    displayQuestion(questions[currentQuestionIndex]);
-}
+    const question = questions[currentQuestionIndex];
+    $('#question').text(question.text);
+    displayOptions();
 
-function displayQuestion(question) {
-    $questionSection.empty();
-    const $questionText = $('<h2>');
-    $questionText.text(question.text);
-    $questionSection.append($questionText);
-    displayOptions(question.options);
-}
-
-function displayOptions(options) {
-    options.forEach((option, index) => {
-        const optionNumber = index + 1;
-        const formattedOptionText = `${optionNumber}) ${option}`;
-        const $option = $('<button>');
-        $option.text(formattedOptionText);
-        $option.css('display', 'block');
-        $option.addClass('btn-lg btn-primary m-3 text-left');
-        $option.on('click', optionSelected);
-        $questionSection.append($option);
-    });
+    function displayOptions() {
+        question.options.forEach((option, index) => {
+            const optionNumber = index + 1;
+            $(`#option${optionNumber}`).text(`${optionNumber}) ${option}`);
+        });
+    }
 }
 
 function optionSelected() {
     if (optionIsCorrect(this)) {
         setTimeSectionBootstrapClass('bg-success');
-        nextQuestion();
+        displayNextQuestion();
         return;
     }
     timer -= penaltyTime;
-    $timeSpan.text(timer);
+    $('#time-span').text(timer);
     if(timer <= 0) {
         endGame();
         return;
     }
     setTimeSectionBootstrapClass('bg-danger');
-    nextQuestion();
+    displayNextQuestion();
 }
 
 function optionIsCorrect(option) {
@@ -129,61 +97,47 @@ function optionIsCorrect(option) {
 function endGame() {
     clearInterval(tickInterval);
     setTimeSectionBootstrapClass('bg-info');
-    displayNameInput();
+    hideAll();
+    $('#time-section').show();
+    $('#entry-input-section').show();
 }
 
-function displayNameInput() {
-    $questionSection.empty();
-    const $label = $('<label>');
-    $label.text('Enter your name : ');
-    const $nameInput = $('<input>');
-    const $submit = $('<button>');
-    $submit.text('Submit');
-    $submit.addClass('btn btn-secondary ml-5');
-    $questionSection.append($label, $nameInput, $submit);
-    $submit.on('click', () => {
-        const entry = {
-            name: $nameInput.val(),
-            score: $timeSpan.text()
-        }
-        leaderboard.push(entry);
-        localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-        showLeaderboard();
-    })
+function storeEntry() {
+    const entry = {
+        name: $('#entry-input').val(),
+        score: $('#time-span').text()
+    }
+    let leaderboard = JSON.parse(localStorage.getItem('leaderboard'));
+    if (!leaderboard) {
+        leaderboard = [];
+    }
+    leaderboard.push(entry);
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+    showLeaderboard();
 }
 
 function showLeaderboard() {
-    hideStartAndLeaderboardButtons();
-    $questionSection.empty();
-    $questionSection.append(createBackButton(), createResetButton());
-    if(leaderboard.length == 0) {
-        $questionSection.append($('<h3>No entries</h3>'));
+    hideAll();
+    $('#back-reset-section').show();
+    $('#leaderboard-section').show();
+    $('#leaderboard-section').empty();
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard'));
+    if (!leaderboard) {
+        $('#leaderboard-section').append($('<h3>No entries</h3>'));
         return;
     }
     leaderboard.sort((a, b) => b.score - a.score).forEach(entry => {
         const $entryName = $('<h3>').text(entry.name);
         const $entryScore = $('<p>').text(entry.score);
-        $questionSection.append($entryName, $entryScore);
+        $('#leaderboard-section').append($entryName, $entryScore);
     })
 }
 
-function createBackButton() {
-    const $backButton = $('<button>');
-    $backButton.attr('id', 'back');
-    $backButton.addClass('btn btn-secondary ml-5');
-    $backButton.text('Back');
-    $backButton.on('click', readyGame);
-    return $backButton;
-}
-
-function createResetButton() {
-    const $resetButton = $('<button>');
-    $resetButton.addClass('btn btn-secondary ml-5');
-    $resetButton.text('Reset');
-    $resetButton.on('click', () => {
-        localStorage.setItem('leaderboard', null);
-        leaderboard = [];
-        showLeaderboard();
-    });
-    return $resetButton;
+function hideAll() {
+    $('#start-leader-section').hide();
+    $('#back-reset-section').hide();
+    $('#question-section').hide();
+    $('#entry-input-section').hide();
+    $('#leaderboard-section').hide();
+    $('#time-section').hide();
 }

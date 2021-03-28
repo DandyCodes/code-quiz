@@ -11,14 +11,42 @@
     <title>Code Quiz</title>
 </head>
 <body class="text-center text-white">
-    <header class="bg-dark p-3">
-        <h1 class="display-3">Code Quiz</h1>
-        <button id="start-button" class="btn-lg btn-primary">Start</button>
+    <header class="bg-dark p-1">
+        <h1 class="display-4">Code Quiz</h1>
+        <section id="start-leader-section">
+            <button id="start-button" class="btn btn-primary m-auto">
+                Start
+            </button>
+            <button id="leaderboard-button" class="btn btn-warning m-auto">
+                Leaderboard
+            </button>
+           
+        </section>
+        <section id="back-reset-section">
+            <button id="back-button" class="btn btn-warning m-auto">
+                Back
+            </button>
+            <button id="reset-button" class="btn btn-danger m-auto">
+                Reset
+            </button>
+        </section>
     </header>
     <main>
-        <button id="leaderboard-button" class="btn btn-secondary mt-3">Leaderboard</button>
         <section id="question-section" class="rounded p-3 pl-5 mx-auto mt-3 bg-dark w-75 text-left">
-            Click start to begin!
+            <h4 id="question"></h4>
+            <button id="option1" class="option btn btn-primary m-1 text-left d-block"></button>
+            <button id="option2" class="option btn btn-primary m-1 text-left d-block"></button>
+            <button id="option3" class="option btn btn-primary m-1 text-left d-block"></button>
+            <button id="option4" class="option btn btn-primary m-1 text-left d-block"></button>
+        </section>
+        <section id="entry-input-section" class="rounded p-3 pl-5 mx-auto mt-3 bg-dark w-75 text-left">
+            <label for="entry-input">
+                Enter your name : 
+                <input id="entry-input" type="text">
+            </label>
+            <button id="submit-entry-button" class="btn btn-info ml-5">Submit</button>
+        </section>
+        <section id="leaderboard-section" class="rounded p-3 pl-5 mx-auto mt-3 bg-dark w-75 text-left">
         </section>
         <section id="time-section" class="rounded p-1 mx-auto mt-3 bg-info w-75">
             <h2>Time: <span id="time-span">0</span></h2>
