@@ -11,19 +11,22 @@ let questions = [];
 let currentQuestionIndex = -1;
 let timer = 0;
 let tickInterval = null;
+let leaderboard = [];
 
-let leaderboardEntries = [];
-if (JSON.parse(localStorage.getItem('leaderboardEntries')) != null) {
-    leaderboardEntries = JSON.parse(localStorage.getItem('leaderboardEntries'));
+init();
+
+function init() {
+    const savedLeaderboard = JSON.parse(localStorage.getItem('leaderboard'));
+    if (savedLeaderboard) {
+        leaderboard = savedLeaderboard;
+    }
+    $leaderButton.on('click', showLeaderboard);
+    $.getJSON('questions.json', function(json) {
+        questions = json['questions'];
+        readyGame();
+        $startButton.on('click', startGame);
+    })
 }
-
-$leaderButton.on('click', showLeaderboard);
-
-$.getJSON('questions.json', function(json) {
-    questions = json['questions'];
-    readyGame();
-    $startButton.on('click', startGame);
-})
 
 function readyGame() {
     $questionBox.empty();
@@ -44,7 +47,7 @@ function startGame() {
     $leaderButton.fadeTo(0,0);
     tickInterval = setInterval(tick, 1000);
     displayNewQuestion();
-    $time.parent().parent().removeClass('bg-danger');
+    $time.parent().parent().removeClass('bg-danger bg-success');
     $time.parent().parent().addClass('bg-info');
 }
 
@@ -77,8 +80,8 @@ function displayNewQuestion() {
 
 function optionSelected() {
     if (optionIsCorrect(this)) {
-        $time.parent().parent().removeClass('bg-danger');
-        $time.parent().parent().addClass('bg-info');
+        $time.parent().parent().removeClass('bg-danger bg-info');
+        $time.parent().parent().addClass('bg-success');
         displayNewQuestion();
         return;
     }
@@ -88,7 +91,7 @@ function optionSelected() {
         endGame();
         return;
     }
-    $time.parent().parent().removeClass('bg-info');
+    $time.parent().parent().removeClass('bg-info bg-success');
     $time.parent().parent().addClass('bg-danger');
     displayNewQuestion();
 }
@@ -99,7 +102,7 @@ function optionIsCorrect(option) {
 
 function endGame() {
     clearInterval(tickInterval);
-    $time.parent().parent().removeClass('bg-danger');
+    $time.parent().parent().removeClass('bg-danger bg-success');
     $time.parent().parent().addClass('bg-info');
     displayNameInput();
 }
@@ -115,8 +118,8 @@ function displayNameInput() {
             name: $nameInput.val(),
             score: $time.text()
         }
-        leaderboardEntries.push(entry);
-        localStorage.setItem('leaderboardEntries', JSON.stringify(leaderboardEntries));
+        leaderboard.push(entry);
+        localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
         showLeaderboard();
     })
 }
@@ -132,11 +135,11 @@ function showLeaderboard() {
     const $resetButton = $('<button id="back" class="btn btn-secondary ml-5">Reset</button>');
     $resetButton.on('click', reset);
     $questionBox.append($backButton, $resetButton);
-    if(leaderboardEntries.length == 0) {
+    if(leaderboard.length == 0) {
         $questionBox.append($('<h3>No entries</h3>'));
         return;
     }
-    leaderboardEntries.sort((a, b) => b.score - a.score).forEach(entry => {
+    leaderboard.sort((a, b) => b.score - a.score).forEach(entry => {
         const $entryName = $('<h3>').text(entry.name);
         const $entryScore = $('<p>').text(entry.score);
         $questionBox.append($entryName, $entryScore);
@@ -149,7 +152,7 @@ function back() {
 }
 
 function reset() {
-    localStorage.setItem('leaderboardEntries', null);
-    leaderboardEntries = [];
+    localStorage.setItem('leaderboard', null);
+    leaderboard = [];
     showLeaderboard();
 }
