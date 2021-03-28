@@ -22,6 +22,7 @@ function init() {
     $.getJSON('questions.json', json => {
         questions = json['questions'];
         readyGame();
+        $('main').removeClass('d-none');
         $('#start-button').on('click', startGame);
     });
 }
