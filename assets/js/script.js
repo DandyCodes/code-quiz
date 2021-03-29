@@ -104,7 +104,7 @@ function endGame() {
 
 function storeEntry() {
     const entry = {
-        name: $('#entry-input').val(),
+        initials: $('#entry-input').val(),
         score: $('#time-span').text()
     }
     let leaderBoard = JSON.parse(localStorage.getItem('leaderBoard'));
@@ -128,11 +128,11 @@ function showLeaderBoard() {
     }
     leaderBoard.sort((a, b) => b.score - a.score);
     leaderBoard.forEach(entry => {
-        const $entryName = $('<h3>');
-        $entryName.text(entry.name);
+        const $entryInitials = $('<h3>');
+        $entryInitials.text(entry.initials);
         const $entryScore = $('<p>');
         $entryScore.text(entry.score);
-        $('#leader-board-section').append($entryName, $entryScore);
+        $('#leader-board-section').append($entryInitials, $entryScore);
     })
 }
 
