@@ -64,14 +64,9 @@ function displayNextQuestion() {
     }
     const question = questions[currentQuestionIndex];
     $('#question').text(question.text);
-    displayOptions();
-
-    function displayOptions() {
-        question.options.forEach((option, index) => {
-            const optionNumber = index + 1;
-            $(`#option${optionNumber}`).text(option);
-        });
-    }
+    question.options.forEach((option, index) => {
+        $(`#option${index}`).text(option);
+    });
 }
 
 function optionSelected(onclickEvent) {
