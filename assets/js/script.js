@@ -19,7 +19,7 @@ function init() {
     })
     $('.option').on('click', optionSelected);
     $('#submit-entry-button').on('click', storeEntry);
-    $.getJSON('questions.json', json => {
+    $.getJSON('./assets/JSON/questions.json', json => {
         questions = json['questions'];
         readyGame();
         $('main').removeClass('d-none');
