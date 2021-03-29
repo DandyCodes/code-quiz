@@ -10,7 +10,7 @@ init();
 function init() {
     $('#leader-board-button').on('click', showLeaderBoard);
     $('#back-button').on('click', readyGame);
-    $('#reset-button').on('click', resetleaderBoard)
+    $('#reset-button').on('click', resetLeaderBoard)
     $('.option').on('click', optionSelected);
     $('#submit-entry-button').on('click', storeEntry);
     $.getJSON('./assets/JSON/questions.json', json => {
@@ -21,7 +21,7 @@ function init() {
     });
 }
 
-function resetleaderBoard() {
+function resetLeaderBoard() {
     localStorage.setItem('leaderBoard', null);
     showLeaderBoard();
 }
