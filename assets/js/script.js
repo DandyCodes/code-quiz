@@ -128,8 +128,10 @@ function showLeaderBoard() {
     }
     leaderBoard.sort((a, b) => b.score - a.score);
     leaderBoard.forEach(entry => {
-        const $entryName = $('<h3>').text(entry.name);
-        const $entryScore = $('<p>').text(entry.score);
+        const $entryName = $('<h3>')
+        $entryName.text(entry.name);
+        const $entryScore = $('<p>')
+        $entryScore.text(entry.score);
         $('#leader-board-section').append($entryName, $entryScore);
     })
 }
