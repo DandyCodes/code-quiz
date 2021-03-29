@@ -11,12 +11,9 @@ let tickInterval = null;
 init();
 
 function init() {
-    $('#leaderboard-button').on('click', showLeaderboard);
+    $('#leader-board-button').on('click', showLeaderBoard);
     $('#back-button').on('click', readyGame);
-    $('#reset-button').on('click', () => {
-        localStorage.setItem('leaderboard', null);
-        showLeaderboard();
-    })
+    $('#reset-button').on('click', resetleaderBoard)
     $('.option').on('click', optionSelected);
     $('#submit-entry-button').on('click', storeEntry);
     $.getJSON('./assets/JSON/questions.json', json => {
@@ -25,6 +22,11 @@ function init() {
         $('main').removeClass('d-none');
         $('#start-button').on('click', startGame);
     });
+}
+
+function resetleaderBoard() {
+    localStorage.setItem('leaderBoard', null);
+    showLeaderBoard();
 }
 
 function readyGame() {
@@ -108,29 +110,29 @@ function storeEntry() {
         name: $('#entry-input').val(),
         score: $('#time-span').text()
     }
-    let leaderboard = JSON.parse(localStorage.getItem('leaderboard'));
-    if (!leaderboard) {
-        leaderboard = [];
+    let leaderBoard = JSON.parse(localStorage.getItem('leaderBoard'));
+    if (!leaderBoard) {
+        leaderBoard = [];
     }
-    leaderboard.push(entry);
-    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-    showLeaderboard();
+    leaderBoard.push(entry);
+    localStorage.setItem('leaderBoard', JSON.stringify(leaderBoard));
+    showLeaderBoard();
 }
 
-function showLeaderboard() {
+function showLeaderBoard() {
     hideAllSections();
     $('#back-reset-section').show();
-    $('#leaderboard-section').show();
-    $('#leaderboard-section').empty();
-    const leaderboard = JSON.parse(localStorage.getItem('leaderboard'));
-    if (!leaderboard) {
-        $('#leaderboard-section').append($('<h3>No entries</h3>'));
+    $('#leader-board-section').show();
+    $('#leader-board-section').empty();
+    const leaderBoard = JSON.parse(localStorage.getItem('leaderBoard'));
+    if (!leaderBoard) {
+        $('#leader-board-section').append($('<h3>No entries</h3>'));
         return;
     }
-    leaderboard.sort((a, b) => b.score - a.score).forEach(entry => {
+    leaderBoard.sort((a, b) => b.score - a.score).forEach(entry => {
         const $entryName = $('<h3>').text(entry.name);
         const $entryScore = $('<p>').text(entry.score);
-        $('#leaderboard-section').append($entryName, $entryScore);
+        $('#leader-board-section').append($entryName, $entryScore);
     })
 }
 
@@ -139,6 +141,6 @@ function hideAllSections() {
     $('#back-reset-section').hide();
     $('#question-section').hide();
     $('#entry-input-section').hide();
-    $('#leaderboard-section').hide();
+    $('#leader-board-section').hide();
     $('#time-section').hide();
 }
