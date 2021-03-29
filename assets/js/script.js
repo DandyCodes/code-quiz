@@ -126,7 +126,8 @@ function showLeaderBoard() {
         $('#leader-board-section').append($('<h3>No entries</h3>'));
         return;
     }
-    leaderBoard.sort((a, b) => b.score - a.score).forEach(entry => {
+    leaderBoard.sort((a, b) => b.score - a.score);
+    leaderBoard.forEach(entry => {
         const $entryName = $('<h3>').text(entry.name);
         const $entryScore = $('<p>').text(entry.score);
         $('#leader-board-section').append($entryName, $entryScore);
