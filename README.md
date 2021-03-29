@@ -26,4 +26,4 @@ https://www.w3schools.com/
 ## License
 Copyright (c) DandyCodes. All rights reserved.
 
-Licensed under the [MIT](LICENSE.txt) license.`
+Licensed under the [MIT](LICENSE.txt) license.
