@@ -69,13 +69,14 @@ function displayNextQuestion() {
     function displayOptions() {
         question.options.forEach((option, index) => {
             const optionNumber = index + 1;
-            $(`#option${optionNumber}`).text(`${optionNumber}) ${option}`);
+            $(`#option${optionNumber}`).text(option);
         });
     }
 }
 
-function optionSelected() {
-    if (optionIsCorrect(this)) {
+function optionSelected(onclickEvent) {
+    const option = onclickEvent.target;
+    if (optionIsCorrect(option)) {
         setTimeSectionBootstrapClass('bg-success');
         displayNextQuestion();
         return;
@@ -91,7 +92,7 @@ function optionSelected() {
 }
 
 function optionIsCorrect(option) {
-    return option.textContent.startsWith(questions[currentQuestionIndex].answer);
+    return option.textContent === questions[currentQuestionIndex].answer;
 }
 
 function endGame() {
@@ -103,6 +104,10 @@ function endGame() {
 }
 
 function storeEntry() {
+    if(!$('#entry-input').val()) {
+        alert('Please enter your initials');
+        return;
+    }
     const entry = {
         initials: $('#entry-input').val(),
         score: $('#time-span').text()

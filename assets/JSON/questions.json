@@ -8,7 +8,7 @@
                 "NaN",
                 "-1"
             ],
-            "answer": "4"
+            "answer": "-1"
         },
         {
             "text": "Which of the following is true of strings in JavaScript?",
@@ -18,7 +18,7 @@
                 "They are immutable",
                 "They cannot be concatenated with other strings"
             ],
-            "answer": "3"
+            "answer": "They are immutable"
         },
         {
             "text": "What name was first given to the JavaScript programming language?",
@@ -28,7 +28,7 @@
                 "Espresso",
                 "Cappuccino"
             ],
-            "answer": "2"
+            "answer": "Mocha"
         },
         {
             "text": "Which of the following declares and initializes an empty object?",
@@ -38,7 +38,7 @@
                 "let obj = []",
                 "let obj = {}"
             ],
-            "answer": "4"
+            "answer": "let obj = {}"
         },
         {
             "text": "What denotes the strict equality operator?",
@@ -48,7 +48,7 @@
                 "==",
                 "!="
             ],
-            "answer": "1"
+            "answer": "==="
         }
     ]
 }
