@@ -1,11 +1,8 @@
-const totalQuestions = 5;
-const optionsPerQuestion = 4;
 const startingTime = 75;
 const penaltyTime = 15;
-
+let timer = startingTime;
 let questions = [];
 let currentQuestionIndex = -1;
-let timer = 0;
 let tickInterval = null;
 
 init();
@@ -61,7 +58,7 @@ function tick() {
 
 function displayNextQuestion() {
     currentQuestionIndex++;
-    if (currentQuestionIndex == totalQuestions) {
+    if (currentQuestionIndex == questions.length) {
         endGame();
         return;
     }
@@ -101,8 +98,8 @@ function endGame() {
     clearInterval(tickInterval);
     setTimeSectionBootstrapClass('bg-info');
     hideAllSections();
-    $('#time-section').show();
     $('#entry-input-section').show();
+    $('#time-section').show();
 }
 
 function storeEntry() {
