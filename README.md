@@ -1,7 +1,7 @@
 # Code Quiz
 ## Description
 This repository contains a timed, interactive code quiz with a leader board.
-It uses *Bootstrap* to achieve a minimalistic style without the need for any CSS.
+It uses *Bootstrap* to achieve a minimalist style without the need for any CSS.
 It uses *jQuery* to retrieve a JSON file containing the questions at runtime.
 The UI is clean, polished and responsive to multiple screen sizes.
 When the quiz starts, the user is presented with a question and multiple options.
