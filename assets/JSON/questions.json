@@ -1,54 +1,52 @@
-{
-    "questions": [
-        {
-            "text": "Which of these values is considered 'truthy'?",
-            "options": [
-                "undefined",
-                "false",
-                "NaN",
-                "-1"
-            ],
-            "answer": "-1"
-        },
-        {
-            "text": "Which of the following is true of strings in JavaScript?",
-            "options": [
-                "They are not a primitive data type",
-                "They cannot contain more than 32,767 characters",
-                "They are immutable",
-                "They cannot be concatenated with other strings"
-            ],
-            "answer": "They are immutable"
-        },
-        {
-            "text": "What name was first given to the JavaScript programming language?",
-            "options": [
-                "Ice Tea",
-                "Mocha",
-                "Espresso",
-                "Cappuccino"
-            ],
-            "answer": "Mocha"
-        },
-        {
-            "text": "Which of the following declares and initializes an empty object?",
-            "options": [
-                "let obj = ' '",
-                "let obj = 0",
-                "let obj = []",
-                "let obj = {}"
-            ],
-            "answer": "let obj = {}"
-        },
-        {
-            "text": "What denotes the strict equality operator?",
-            "options": [
-                "===",
-                "!==",
-                "==",
-                "!="
-            ],
-            "answer": "==="
-        }
-    ]
-}
+[
+    {
+        "text": "Which of these values is considered 'truthy'?",
+        "options": [
+            "undefined",
+            "false",
+            "NaN",
+            "-1"
+        ],
+        "answer": "-1"
+    },
+    {
+        "text": "Which of the following is true of strings in JavaScript?",
+        "options": [
+            "They are not a primitive data type",
+            "They cannot contain more than 32,767 characters",
+            "They are immutable",
+            "They cannot be concatenated with other strings"
+        ],
+        "answer": "They are immutable"
+    },
+    {
+        "text": "What name was first given to the JavaScript programming language?",
+        "options": [
+            "Ice Tea",
+            "Mocha",
+            "Espresso",
+            "Cappuccino"
+        ],
+        "answer": "Mocha"
+    },
+    {
+        "text": "Which of the following declares and initializes an empty object?",
+        "options": [
+            "let obj = ' '",
+            "let obj = 0",
+            "let obj = []",
+            "let obj = {}"
+        ],
+        "answer": "let obj = {}"
+    },
+    {
+        "text": "What denotes the strict equality operator?",
+        "options": [
+            "===",
+            "!==",
+            "==",
+            "!="
+        ],
+        "answer": "==="
+    }
+]

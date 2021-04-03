@@ -1,8 +1,8 @@
 const startingTime = 75;
 const penaltyTime = 15;
 let timer = startingTime;
-let questions = [];
 let currentQuestionIndex = -1;
+let questions = null;
 let tickInterval = null;
 
 init();
@@ -13,8 +13,8 @@ function init() {
     $('#reset-button').on('click', resetLeaderBoard)
     $('.option').on('click', optionSelected);
     $('#submit-entry-button').on('click', storeEntry);
-    $.getJSON('./assets/JSON/questions.json', json => {
-        questions = json['questions'];
+    $.getJSON('./assets/JSON/questions.json', result => {
+        questions = result;
         readyGame();
         $('main').removeClass('d-none');
         $('#start-button').on('click', startGame);
