@@ -2,7 +2,7 @@
 ## Description
 This repository contains a timed, interactive code quiz with a leader board.
 
-It uses *Bootstrap* to achieve a minimalist style without the need for any CSS.
+It uses *Bootstrap* to achieve a minimalist style without the need for any custom CSS.
 
 It uses *jQuery* to retrieve a JSON file containing the questions at runtime.
 
@@ -26,4 +26,4 @@ https://www.w3schools.com/
 ## License
 Copyright (c) DandyCodes. All rights reserved.
 
-Licensed under the [MIT](LICENSE.txt) license.
+Licensed under the [MIT](LICENSE) license.
