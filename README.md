@@ -16,7 +16,7 @@ When the user completes the quiz, the total time remaining represents their scor
 Scores are saved in local storage.
 Scores are displayed on the leader board, sorted from highest to lowest.
 
-![a screenshot of the deployed website](./assets/images/screenshot.png)
+![a screenshot of the deployed website](assets/img/screenshot.png)
 ## Usage
 The deployed website can be viewed here: https://dandycodes.github.io/code-quiz/
 ## Credits
